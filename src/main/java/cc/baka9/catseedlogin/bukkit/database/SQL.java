@@ -1,15 +1,11 @@
 package cc.baka9.catseedlogin.bukkit.database;
 
 import cc.baka9.catseedlogin.bukkit.object.LoginPlayer;
-import java.sql.Date;
-import java.sql.Time;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Timestamp;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class SQL {
     protected JavaPlugin plugin;
@@ -21,7 +17,7 @@ public abstract class SQL {
     public LoginPlayer get(String name) throws Exception{
         LoginPlayer lp = null;
 
-        try (PreparedStatement ps = new BufferStatement("SELECT * FROM `blessingskin` WHERE nickname = ?",
+        try (PreparedStatement ps = new BufferStatement("SELECT * FROM `users` WHERE nickname = ?",
                 name).prepareStatement(getConnection())) {
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
@@ -37,8 +33,8 @@ public abstract class SQL {
     }
 
     public void log(LoginPlayer lp, String action, String ip) throws Exception{
-        try (PreparedStatement ps = new BufferStatement("INSERT INTO `blessingskin` (user_id,player_id,action,parameters,ip,time) VALUES (?,?,?,?,?,?)",
-                lp.getUserid(), 0, action, "", ip, new Time(System.currentTimeMillis())).prepareStatement(getConnection())) {
+        try (PreparedStatement ps = new BufferStatement("INSERT INTO `ygg_log` (user_id,player_id,action,parameters,ip,time) VALUES (?,?,?,?,?,?)",
+                lp.getUserid(), 0, action, "", ip, new Timestamp(System.currentTimeMillis())).prepareStatement(getConnection())) {
             ps.executeUpdate();
         }
     }
