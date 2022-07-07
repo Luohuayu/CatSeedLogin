@@ -33,8 +33,6 @@ public class CatSeedLogin extends JavaPlugin {
         }
         sql = new MySQL(this);
         try {
-            sql.init();
-
             Cache.refreshAll();
         } catch (Exception e) {
             getLogger().warning("§c加载数据库时出错");

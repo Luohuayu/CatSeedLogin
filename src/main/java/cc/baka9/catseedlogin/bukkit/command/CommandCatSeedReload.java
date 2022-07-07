@@ -16,8 +16,6 @@ public class CommandCatSeedReload implements CommandExecutor {
         Config.reload();
         CatSeedLogin.sql = new MySQL(CatSeedLogin.instance);
         try {
-            CatSeedLogin.sql.init();
-
             Cache.refreshAll();
         } catch (Exception e) {
             CatSeedLogin.instance.getLogger().warning("§c加载数据库时出错");

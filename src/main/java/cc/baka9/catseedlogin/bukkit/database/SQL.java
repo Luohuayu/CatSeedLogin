@@ -17,46 +17,6 @@ public abstract class SQL {
         this.plugin = plugin;
     }
 
-    public void init() throws Exception{
-
-        flush(new BufferStatement("CREATE TABLE IF NOT EXISTS accounts (name CHAR(255),password CHAR(255),email CHAR(255),ips CHAR(255),lastAction TIMESTAMP)"));
-
-        try {
-            flush(new BufferStatement("ALTER TABLE accounts ADD email CHAR(255)"));
-        } catch (Exception e) {
-            if (!e.getMessage().toLowerCase().contains("duplicate column name")) {
-                throw e;
-            }
-        }
-
-        try {
-            flush(new BufferStatement("ALTER TABLE accounts ADD ips CHAR(255)"));
-        } catch (Exception e) {
-            if (!e.getMessage().toLowerCase().contains("duplicate column name")) {
-                throw e;
-            }
-        }
-
-    }
-
-
-    public void add(LoginPlayer lp) throws Exception{
-        flush(new BufferStatement("INSERT INTO accounts (name,password,lastAction,email,ips) VALUES(?,?,?,?,?)",
-                lp.getName(), lp.getPassword(), new Date(), lp.getEmail(), lp.getIps()));
-        Cache.refresh(lp.getName());
-    }
-
-    public void del(String name) throws Exception{
-        flush(new BufferStatement("DELETE FROM accounts WHERE name = ?", name));
-        Cache.refresh(name);
-    }
-
-    public void edit(LoginPlayer lp) throws Exception{
-        flush(new BufferStatement("UPDATE accounts SET password = ?, lastAction = ?, email = ?, ips = ? WHERE name= ?"
-                , lp.getPassword(), new Date(), lp.getEmail(), lp.getIps(), lp.getName()));
-        Cache.refresh(lp.getName());
-    }
-
     public LoginPlayer get(String name) throws Exception{
         PreparedStatement ps = new BufferStatement("SELECT * FROM accounts WHERE name = ?",
                 name).prepareStatement(getConnection());
@@ -90,27 +50,5 @@ public abstract class SQL {
 
     }
 
-    public List<LoginPlayer> getLikeByIp(String ip) throws Exception{
-        PreparedStatement ps = new BufferStatement("SELECT * FROM accounts WHERE ips like ?", "%" + ip + "%").prepareStatement(getConnection());
-        ResultSet resultSet = ps.executeQuery();
-        List<LoginPlayer> lps = new ArrayList<>();
-        LoginPlayer lp;
-        while (resultSet.next()) {
-            lp = new LoginPlayer(resultSet.getString("name"), resultSet.getString("password"));
-            lp.setLastAction(resultSet.getTimestamp("lastAction").getTime());
-            lp.setEmail(resultSet.getString("email"));
-            lp.setIps(resultSet.getString("ips"));
-            lps.add(lp);
-        }
-        return lps;
-    }
-
     public abstract Connection getConnection() throws Exception;
-
-
-    public void flush(BufferStatement bufferStatement) throws Exception{
-        PreparedStatement ps = bufferStatement.prepareStatement(getConnection());
-        ps.executeUpdate();
-        ps.close();
-    }
 }

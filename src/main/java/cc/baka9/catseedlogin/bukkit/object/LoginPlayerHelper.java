@@ -64,25 +64,6 @@ public class LoginPlayerHelper {
 
     }
 
-    // 记录登录IP
-    public static void recordCurrentIP(Player player, LoginPlayer lp){
-        String currentIp = player.getAddress().getAddress().getHostAddress();
-        List<String> ipsList = lp.getIpsList();
-        ipsList.add(currentIp);
-        ipsList = ipsList.stream().distinct().collect(Collectors.toList());
-        if (ipsList.size() > 5) {
-            ipsList.remove(0);
-        }
-        lp.setIps(String.join(";", ipsList.toArray(new String[0])));
-        CatSeedLogin.instance.runTaskAsync(() -> {
-            try {
-                CatSeedLogin.sql.edit(lp);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
     // ProtocolLib发包空背包
     public static void sendBlankInventoryPacket(Player player){
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
