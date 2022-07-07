@@ -17,8 +17,8 @@ public class LoginPlayer {
     private String name;
     private String password;
     private String email;
-    private String ips;
-    private long lastAction;
+    private int userid;
+    private boolean verified;
 
     @Override
     public boolean equals(Object o){
@@ -26,14 +26,6 @@ public class LoginPlayer {
         if (o == null || getClass() != o.getClass()) return false;
         LoginPlayer that = (LoginPlayer) o;
         return Objects.equals(name, that.name);
-    }
-
-    public List<String> getIpsList(){
-        List<String> ipList = new ArrayList<>();
-        if (this.ips != null) {
-            ipList.addAll(Arrays.asList(this.ips.split(";")));
-        }
-        return ipList;
     }
 
     @Override
@@ -49,6 +41,4 @@ public class LoginPlayer {
     public void crypt(){
         password = Crypt.encrypt(name, password);
     }
-
-
 }

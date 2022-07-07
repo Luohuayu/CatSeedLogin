@@ -24,14 +24,12 @@ public class LoginPlayerHelper {
 
     public static void add(LoginPlayer lp){
         synchronized (set) {
-
             set.add(lp);
         }
     }
 
     public static void remove(LoginPlayer lp){
         synchronized (set) {
-
             set.remove(lp);
         }
     }
@@ -59,9 +57,19 @@ public class LoginPlayerHelper {
     }
 
     public static boolean isRegister(String name){
-
         return Cache.getIgnoreCase(name) != null;
+    }
 
+    // 记录登录IP
+    public static void recordCurrentIP(Player player, LoginPlayer lp, String action){
+        String currentIp = player.getAddress().getAddress().getHostAddress();
+        CatSeedLogin.instance.runTaskAsync(() -> {
+            try {
+                CatSeedLogin.sql.log(lp, action, currentIp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     // ProtocolLib发包空背包

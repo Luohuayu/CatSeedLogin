@@ -25,16 +25,19 @@ public class CommandLogin implements CommandExecutor {
             return true;
         }
         LoginPlayer lp = Cache.getIgnoreCase(name);
-        if (lp == null) {
+        if (lp == null || !lp.isVerified()) {
             sender.sendMessage(Config.Language.LOGIN_NOREGISTER);
             return true;
         }
+        LoginPlayerHelper.recordCurrentIP(player, lp, "authenticate");
         if (Objects.equals(Crypt.encrypt(name, args[0]), lp.getPassword().trim())) {
+            LoginPlayerHelper.recordCurrentIP(player, lp, "join");
             LoginPlayerHelper.add(lp);
             CatSeedPlayerLoginEvent loginEvent = new CatSeedPlayerLoginEvent(player, lp.getEmail(), CatSeedPlayerLoginEvent.Result.SUCCESS);
             Bukkit.getServer().getPluginManager().callEvent(loginEvent);
             sender.sendMessage(Config.Language.LOGIN_SUCCESS);
             player.updateInventory();
+            LoginPlayerHelper.recordCurrentIP(player, lp, "has_joined");
             if (Config.Settings.AfterLoginBack && Config.Settings.CanTpSpawnLocation) {
                 Config.getOfflineLocation(player).ifPresent(player::teleport);
             }

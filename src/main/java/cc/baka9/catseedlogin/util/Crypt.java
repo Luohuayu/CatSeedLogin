@@ -9,6 +9,7 @@ public class Crypt {
     private static final char[] CRYPTCHARS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     public static String encrypt(final String name, final String password){
+        /*
         final String text = "ÜÄaeut//&/=I " + password + "7421€547" + name + "__+IÄIH§%NK " + password;
         try {
             final MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -17,6 +18,8 @@ public class Crypt {
         } catch (final NoSuchAlgorithmException e) {
             return null;
         }
+        */
+        return null; // TODO: 更换皮肤站算法
     }
 
     public static String byteArrayToHexString(byte... args){
