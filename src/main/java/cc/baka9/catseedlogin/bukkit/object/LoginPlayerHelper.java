@@ -61,11 +61,10 @@ public class LoginPlayerHelper {
     }
 
     // 记录登录IP
-    public static void recordCurrentIP(Player player, LoginPlayer lp, String action){
-        String currentIp = player.getAddress().getAddress().getHostAddress();
+    public static void recordCurrentIP(LoginPlayer lp, String action, String ip){
         CatSeedLogin.instance.runTaskAsync(() -> {
             try {
-                CatSeedLogin.sql.log(lp, action, currentIp);
+                CatSeedLogin.sql.log(lp, action, ip);
             } catch (Exception e) {
                 e.printStackTrace();
             }

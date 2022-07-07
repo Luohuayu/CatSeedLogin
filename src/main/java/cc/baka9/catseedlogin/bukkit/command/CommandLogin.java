@@ -5,16 +5,16 @@ import cc.baka9.catseedlogin.bukkit.database.Cache;
 import cc.baka9.catseedlogin.bukkit.event.CatSeedPlayerLoginEvent;
 import cc.baka9.catseedlogin.bukkit.object.LoginPlayer;
 import cc.baka9.catseedlogin.bukkit.object.LoginPlayerHelper;
-import cc.baka9.catseedlogin.util.Crypt;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Objects;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class CommandLogin implements CommandExecutor {
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     @Override
     public boolean onCommand(CommandSender sender, Command command, String lable, String[] args){
         if (args.length == 0 || !(sender instanceof Player)) return false;
@@ -29,15 +29,15 @@ public class CommandLogin implements CommandExecutor {
             sender.sendMessage(Config.Language.LOGIN_NOREGISTER);
             return true;
         }
-        LoginPlayerHelper.recordCurrentIP(player, lp, "authenticate");
-        if (Objects.equals(Crypt.encrypt(name, args[0]), lp.getPassword().trim())) {
-            LoginPlayerHelper.recordCurrentIP(player, lp, "join");
+        LoginPlayerHelper.recordCurrentIP(lp, "authenticate", player.getAddress().getAddress().getHostAddress());
+        if (bCryptPasswordEncoder.matches(args[0], lp.getPassword())) {
+            LoginPlayerHelper.recordCurrentIP(lp, "join", player.getAddress().getAddress().getHostAddress());
             LoginPlayerHelper.add(lp);
             CatSeedPlayerLoginEvent loginEvent = new CatSeedPlayerLoginEvent(player, lp.getEmail(), CatSeedPlayerLoginEvent.Result.SUCCESS);
             Bukkit.getServer().getPluginManager().callEvent(loginEvent);
             sender.sendMessage(Config.Language.LOGIN_SUCCESS);
             player.updateInventory();
-            LoginPlayerHelper.recordCurrentIP(player, lp, "has_joined");
+            LoginPlayerHelper.recordCurrentIP(lp, "has_joined", "127.0.0.1");
             if (Config.Settings.AfterLoginBack && Config.Settings.CanTpSpawnLocation) {
                 Config.getOfflineLocation(player).ifPresent(player::teleport);
             }
