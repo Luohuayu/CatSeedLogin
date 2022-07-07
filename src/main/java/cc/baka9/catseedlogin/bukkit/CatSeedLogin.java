@@ -1,20 +1,17 @@
 package cc.baka9.catseedlogin.bukkit;
 
-import cc.baka9.catseedlogin.bukkit.command.*;
+import cc.baka9.catseedlogin.bukkit.command.CommandCatSeedReload;
+import cc.baka9.catseedlogin.bukkit.command.CommandLogin;
 import cc.baka9.catseedlogin.bukkit.database.Cache;
 import cc.baka9.catseedlogin.bukkit.database.MySQL;
 import cc.baka9.catseedlogin.bukkit.database.SQL;
-import cc.baka9.catseedlogin.bukkit.database.SQLite;
 import cc.baka9.catseedlogin.bukkit.object.LoginPlayerHelper;
 import cc.baka9.catseedlogin.bukkit.task.Task;
+import java.util.ArrayList;
+import java.util.Collections;
 import org.bukkit.Bukkit;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class CatSeedLogin extends JavaPlugin {
 
@@ -34,9 +31,8 @@ public class CatSeedLogin extends JavaPlugin {
             e.printStackTrace();
             getServer().getLogger().warning("加载配置文件时出错，请检查你的配置文件。");
         }
-        sql = Config.MySQL.Enable ? new MySQL(this) : new SQLite(this);
+        sql = new MySQL(this);
         try {
-
             sql.init();
 
             Cache.refreshAll();
@@ -65,7 +61,6 @@ public class CatSeedLogin extends JavaPlugin {
 
         //Task
         Task.runAll();
-
     }
 
 

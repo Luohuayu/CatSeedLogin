@@ -32,7 +32,6 @@ public class Config {
      * 数据库
      */
     public static class MySQL {
-        public static boolean Enable;
         public static String Host;
         public static String Port;
         public static String Database;
@@ -41,7 +40,6 @@ public class Config {
 
         public static void load(){
             FileConfiguration config = getConfig("sql.yml");
-            MySQL.Enable = config.getBoolean("MySQL.Enable");
             MySQL.Host = config.getString("MySQL.Host");
             MySQL.Port = config.getString("MySQL.Port");
             MySQL.Database = config.getString("MySQL.Database");
@@ -127,7 +125,6 @@ public class Config {
         public static String LOGIN_REPEAT;
         public static String LOGIN_SUCCESS;
         public static String LOGIN_FAIL;
-        public static String LOGIN_FAIL_IF_FORGET;
         public static String AUTO_KICK;
 
         public static void load(){

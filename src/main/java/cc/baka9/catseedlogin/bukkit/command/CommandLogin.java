@@ -43,9 +43,6 @@ public class CommandLogin implements CommandExecutor {
             sender.sendMessage(Config.Language.LOGIN_FAIL);
             CatSeedPlayerLoginEvent loginEvent = new CatSeedPlayerLoginEvent(player, lp.getEmail(), CatSeedPlayerLoginEvent.Result.FAIL);
             Bukkit.getServer().getPluginManager().callEvent(loginEvent);
-            if (Config.EmailVerify.Enable) {
-                sender.sendMessage(Config.Language.LOGIN_FAIL_IF_FORGET);
-            }
         }
         return true;
     }

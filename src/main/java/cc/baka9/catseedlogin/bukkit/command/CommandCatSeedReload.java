@@ -4,7 +4,6 @@ import cc.baka9.catseedlogin.bukkit.CatSeedLogin;
 import cc.baka9.catseedlogin.bukkit.Config;
 import cc.baka9.catseedlogin.bukkit.database.Cache;
 import cc.baka9.catseedlogin.bukkit.database.MySQL;
-import cc.baka9.catseedlogin.bukkit.database.SQLite;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,9 +14,8 @@ public class CommandCatSeedReload implements CommandExecutor {
         if (!sender.isOp()) return false;
 
         Config.reload();
-        CatSeedLogin.sql = Config.MySQL.Enable ? new MySQL(CatSeedLogin.instance) : new SQLite(CatSeedLogin.instance);
+        CatSeedLogin.sql = new MySQL(CatSeedLogin.instance);
         try {
-
             CatSeedLogin.sql.init();
 
             Cache.refreshAll();
