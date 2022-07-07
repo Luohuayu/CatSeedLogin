@@ -31,13 +31,14 @@ public class CatSeedLogin extends JavaPlugin {
             e.printStackTrace();
             getServer().getLogger().warning("加载配置文件时出错，请检查你的配置文件。");
         }
-        sql = new MySQL(this);
+
+        //MySQL
         try {
-            Cache.refreshAll();
+            sql = new MySQL(this);
         } catch (Exception e) {
-            getLogger().warning("§c加载数据库时出错");
-            e.printStackTrace();
+            getServer().getLogger().warning("连接数据库错误");
         }
+
         //Listeners
         getServer().getPluginManager().registerEvents(new Listeners(), this);
 

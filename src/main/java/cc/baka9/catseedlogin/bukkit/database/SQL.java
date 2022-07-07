@@ -34,21 +34,5 @@ public abstract class SQL {
         return lp;
     }
 
-    public List<LoginPlayer> getAll() throws Exception{
-        PreparedStatement ps = new BufferStatement("SELECT * FROM accounts").prepareStatement(getConnection());
-        ResultSet resultSet = ps.executeQuery();
-        List<LoginPlayer> lps = new ArrayList<>();
-        LoginPlayer lp;
-        while (resultSet.next()) {
-            lp = new LoginPlayer(resultSet.getString("name"), resultSet.getString("password"));
-            lp.setLastAction(resultSet.getTimestamp("lastAction").getTime());
-            lp.setEmail(resultSet.getString("email"));
-            lp.setIps(resultSet.getString("ips"));
-            lps.add(lp);
-        }
-        return lps;
-
-    }
-
     public abstract Connection getConnection() throws Exception;
 }
