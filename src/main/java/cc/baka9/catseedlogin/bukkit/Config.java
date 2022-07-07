@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 /**
  * 加载/保存/重载 yml配置文件
  * config.yml 玩家退出服务器的位置
- * emailVerify.yml 邮箱找回密码
  * language.yml 语言，提示
  * settings.yml 设置
  * sql.yml 数据库
@@ -48,22 +47,6 @@ public class Config {
             MySQL.Database = config.getString("MySQL.Database");
             MySQL.User = config.getString("MySQL.User");
             MySQL.Password = config.getString("MySQL.Password");
-        }
-    }
-
-    public static class BungeeCord {
-        public static boolean Enable;
-        public static String Host;
-        public static String Port;
-        public static String AuthKey;
-
-        public static void load(){
-
-            FileConfiguration config = getConfig("bungeecord.yml");
-            BungeeCord.Enable = config.getBoolean("Enable");
-            BungeeCord.Host = config.getString("Host");
-            BungeeCord.Port = config.getString("Port");
-            BungeeCord.AuthKey = config.getString("AuthKey");
         }
     }
 
@@ -108,8 +91,6 @@ public class Config {
             AutoKick = config.getInt("AutoKick", 120);
             SpawnLocation = str2Location(config.getString("SpawnLocation"));
             DeathStateQuitRecordLocation = config.getBoolean("DeathStateQuitRecordLocation", resourceConfig.getBoolean("DeathStateQuitRecordLocation"));
-
-
         }
 
         public static void save(){
@@ -147,28 +128,7 @@ public class Config {
         public static String LOGIN_SUCCESS;
         public static String LOGIN_FAIL;
         public static String LOGIN_FAIL_IF_FORGET;
-        public static String REGISTER_SUCCESS;
-        public static String REGISTER_BEFORE_LOGIN_ALREADY;
-        public static String REGISTER_AFTER_LOGIN_ALREADY;
-        public static String REGISTER_PASSWORD_CONFIRM_FAIL;
-        public static String COMMON_PASSWORD_SO_SIMPLE;
-        public static String RESETPASSWORD_NOREGISTER;
-        public static String RESETPASSWORD_EMAIL_DISABLE;
-        public static String RESETPASSWORD_EMAIL_NO_SET;
-        public static String RESETPASSWORD_EMAIL_REPEAT_SEND_MESSAGE;
-        public static String RESETPASSWORD_EMAIL_SENDING_MESSAGE;
-        public static String RESETPASSWORD_EMAIL_SENT_MESSAGE;
-        public static String RESETPASSWORD_EMAIL_WARN;
-        public static String RESETPASSWORD_SUCCESS;
-        public static String RESETPASSWORD_EMAILCODE_INCORRECT;
-        public static String RESETPASSWORD_FAIL;
-        public static String CHANGEPASSWORD_NOREGISTER;
-        public static String CHANGEPASSWORD_NOLOGIN;
-        public static String CHANGEPASSWORD_OLDPASSWORD_INCORRECT;
-        public static String CHANGEPASSWORD_PASSWORD_CONFIRM_FAIL;
-        public static String CHANGEPASSWORD_SUCCESS;
         public static String AUTO_KICK;
-        public static String REGISTER_MORE;
 
         public static void load(){
             FileConfiguration resourceConfig = getResourceConfig("language.yml");
@@ -186,33 +146,6 @@ public class Config {
 
     }
 
-    /**
-     * 邮箱找回密码
-     */
-    public static class EmailVerify {
-
-        public static boolean Enable;
-        public static String EmailAccount;
-        public static String EmailPassword;
-        public static String EmailSmtpHost;
-        public static String EmailSmtpPort;
-        public static boolean SSLAuthVerify;
-        public static String FromPersonal;
-
-
-        public static void load(){
-            FileConfiguration config = getConfig("emailVerify.yml");
-            Enable = config.getBoolean("Enable");
-            EmailAccount = config.getString("EmailAccount");
-            EmailPassword = config.getString("EmailPassword");
-            EmailSmtpHost = config.getString("EmailSmtpHost");
-            EmailSmtpPort = config.getString("EmailSmtpPort");
-            SSLAuthVerify = config.getBoolean("SSLAuthVerify");
-            FromPersonal = config.getString("FromPersonal");
-
-        }
-
-    }
     // 获取插件文件夹中的配置文件，如果不存在则从插件jar包中获取配置文件保存到插件文件夹中
     public static FileConfiguration getConfig(String yamlFileName){
         File file = new File(plugin.getDataFolder(), yamlFileName);
@@ -237,9 +170,7 @@ public class Config {
         }
         MySQL.load();
         Settings.load();
-        EmailVerify.load();
         Language.load();
-        BungeeCord.load();
     }
 
     public static void save(){
