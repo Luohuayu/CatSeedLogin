@@ -1,14 +1,9 @@
 package cc.baka9.catseedlogin.bukkit.object;
 
-import cc.baka9.catseedlogin.util.Crypt;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 @ToString
 @Getter
@@ -36,9 +31,5 @@ public class LoginPlayer {
     public LoginPlayer(String name, String password){
         this.name = name;
         this.password = password;
-    }
-
-    public void crypt(){
-        password = Crypt.encrypt(name, password);
     }
 }

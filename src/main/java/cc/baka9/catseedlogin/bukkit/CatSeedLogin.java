@@ -2,7 +2,6 @@ package cc.baka9.catseedlogin.bukkit;
 
 import cc.baka9.catseedlogin.bukkit.command.CommandCatSeedReload;
 import cc.baka9.catseedlogin.bukkit.command.CommandLogin;
-import cc.baka9.catseedlogin.bukkit.database.Cache;
 import cc.baka9.catseedlogin.bukkit.database.MySQL;
 import cc.baka9.catseedlogin.bukkit.database.SQL;
 import cc.baka9.catseedlogin.bukkit.object.LoginPlayerHelper;
